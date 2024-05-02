@@ -48,6 +48,6 @@ This project is a conversational AI system that can answer questions based on th
 6. **Run the Application**
 -   Run the `chatpdf.py` script
     ```
-  python chatpdf1.py
-  ```
+    python chatpdf1.py
+    ```
 After following these steps, your application should be up and running. You can then access the chatbot interface in your web browser at `http://localhost:8000`.
