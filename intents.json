@@ -1,0 +1,119 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hey",
+        "How are you",
+        "Is anyone there?",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hey :-)",
+        "Hello, thanks for visiting",
+        "Hi there, what can I do for you?",
+        "Hi there, how can I help?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "See you later",
+        "Goodbye"
+      ],
+      "responses": [
+        "See you later, thanks for visiting",
+        "Have a nice day",
+        "Bye! Come back again soon."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "That's helpful",
+        "Thank's a lot!"
+      ],
+      "responses": [
+        "Happy to help!",
+        "Any time!",
+        "My pleasure"
+      ]
+    },
+    {
+      "tag": "disease",
+      "patterns": [
+        "What is ",
+        "when",
+        "how this occurs",
+        "What are the symptoms of",
+        "what are the diagnosis",
+        "what are the reasons for this",
+        "how to prevent",
+        "what are the foods to avoid",
+        "what are the foods to take",
+        "tell me the diet",
+        "symptoms of this ",
+        "symptoms of",
+        "prevention measures",
+        "Can you explain",
+        "What happens if",
+        "Give me information about",
+        "I want to learn more about",
+        "Could you tell me about",
+        "Tell me everything about",
+        "I'm curious about",
+        "Please elaborate on",
+        "Do you have details on",
+        "Could you provide insight into",
+        "What are the effects of",
+        "How does one contract",
+        "Are there any treatments for",
+        "Could you describe the symptoms of",
+        "I'm interested in knowing about",
+        "Can you give me an overview of",
+        "describe",
+        "Prevention of",
+        "Prevention for",
+        "cause and symptoms",
+        "Definition of",
+        "treatment of",
+        "treatment for"
+      ],
+      "responses": [
+        "I can provide information about various diseases, their symptoms, causes, and preventive measures. Please be more specific about the disease you want to know about, and I'll do my best to help."
+      ]
+    },
+    {
+      "tag": "use_guide",
+      "patterns": [
+        "Guide me",
+        "how bot works",
+        "bot uses",
+        "Guide me on how to ask questions"
+      ],
+      "responses": [
+        "To ask about a specific disease or condition, you can use phrases like:\n\n'What is [disease name]?'\n'What are the symptoms of [disease name]?'\n'What causes [disease name]?'\n'How to prevent [disease name]?'\n'What are the treatment options for [disease name]?'\n\nReplace [disease name] with the name of the disease or condition you want to know about. Be as specific as possible for the best response."
+      ]
+    },
+    {
+      "tag": "funny",
+      "patterns": [
+        "Tell me a joke!",
+        "Tell me something funny!",
+        "Do you know a joke?"
+      ],
+      "responses": [
+        "Why did the hipster burn his mouth? He drank the coffee before it was cool.",
+        "Why don't skeletons fight each other? They don't have the guts.",
+        "Why couldn't the bicycle stand up by itself? It was two-tired.",
+        "What did the buffalo say when his son left for college? Bison.",
+        "How do you organize a space party? You planet."
+      ]
+    }
+  ]
+}
