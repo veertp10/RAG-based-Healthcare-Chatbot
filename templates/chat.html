@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        #predictionContent {
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid h-100">
@@ -26,9 +35,19 @@
                                 <p>Ask me anything!</p>
                             </div>
                         </div>
-                        <a href="{{ url_for('static', filename='index.html') }}" target="_blank" class="btn btn-primary">Predict Disease</a>
+                        <button class="btn btn-primary" id="predictDisease">Predict Disease</button>
                     </div>
                     <div id="messageFormeight" class="card-body msg_card_body">
+                        <!-- <div id="predictionContent" style="max-width: 600px; margin: 0 auto;">
+                            <h3>Medical Diagnosis</h3>
+                            <input type="text" id="symptom" style="width: calc(100% - 110px); margin-bottom: 10px;" placeholder="Enter a symptom">
+                            <button id="add" style="margin-right: 10px;">Add Symptom</button>
+                            <button id="predict" style="margin-right: 10px;">Predict</button>
+                            <button id="refresh" style="display: none; margin-right: 10px;">Refresh</button>
+                            <ul id="symptoms" style="margin-bottom: 10px;"></ul>
+                            <div id="result"></div>
+                        </div>   -->
+
                     </div>
                     <div class="card-footer">
                         <form id="messageArea" class="input-group">
@@ -40,18 +59,50 @@
                     </div>
                 </div>
             </div>
+            <div id="predictionContent" style="width: 700px; margin-top: 40px; margin-left: 5px; margin-right: auto; max-height: 600px; overflow-y: auto;">
+                <h3>Medical Diagnosis</h3>
+                <div style="display: flex; margin-bottom: 10px;">
+                    <input type="text" id="symptom" style="width: calc(100% - 110px); margin-bottom: 10px;" placeholder="Enter a symptom">
+                    <button id="add" style="margin-right: 10px;">Add Symptom</button>
+                    <button id="predict" style="margin-right: 10px;">Predict</button>
+                    <button id="refresh" style="display: none; margin-right: 10px;">Refresh</button>
+                </div>
+                <ul id="symptoms" style="margin-bottom: 10px;"></ul>
+                <div id="result"></div>
+            </div>
+             
         </div>
     </div>
 
     <script>
+        var symptoms = ['itching', 'skin_rash', 'nodal_skin_eruptions', 'continuous_sneezing', 'shivering', 'chills', 'joint_pain', 'stomach_pain', 'acidity', 'ulcers_on_tongue', 'muscle_wasting', 'vomiting', 'burning_micturition', 'fatigue', 'weight_gain', 'anxiety', 'cold_hands_and_feets', 'mood_swings', 'weight_loss', 'restlessness', 'lethargy', 'patches_in_throat', 'irregular_sugar_level', 'cough', 'high_fever', 'sunken_eyes', 'breathlessness', 'sweating', 'dehydration', 'indigestion', 'headache', 'yellowish_skin', 'dark_urine', 'nausea', 'loss_of_appetite', 'pain_behind_the_eyes', 'back_pain', 'constipation', 'abdominal_pain', 'diarrhoea', 'mild_fever', 'yellow_urine', 'yellowing_of_eyes', 'acute_liver_failure', 'fluid_overload', 'swelling_of_stomach', 'swelled_lymph_nodes', 'malaise', 'blurred_and_distorted_vision', 'phlegm', 'throat_irritation', 'redness_of_eyes', 'sinus_pressure', 'runny_nose', 'congestion', 'chest_pain', 'weakness_in_limbs', 'fast_heart_rate', 'pain_during_bowel_movements', 'pain_in_anal_region', 'bloody_stool', 'irritation_in_anus', 'neck_pain', 'dizziness', 'cramps', 'bruising', 'obesity', 'swollen_legs', 'swollen_blood_vessels', 'puffy_face_and_eyes', 'enlarged_thyroid', 'brittle_nails', 'swollen_extremeties', 'excessive_hunger', 'extra_marital_contacts', 'drying_and_tingling_lips', 'slurred_speech', 'knee_pain', 'hip_joint_pain', 'muscle_weakness', 'stiff_neck', 'swelling_joints', 'movement_stiffness', 'spinning_movements', 'loss_of_balance', 'unsteadiness', 'weakness_of_one_body_side', 'loss_of_smell', 'bladder_discomfort', 'continuous_feel_of_urine', 'passage_of_gases', 'internal_itching', 'toxic_look_(typhos)', 'depression', 'irritability', 'muscle_pain', 'altered_sensorium', 'red_spots_over_body', 'belly_pain', 'abnormal_menstruation', 'watering_from_eyes', 'increased_appetite', 'polyuria', 'family_history', 'mucoid_sputum', 'rusty_sputum', 'lack_of_concentration', 'visual_disturbances', 'receiving_blood_transfusion', 'receiving_unsterile_injections', 'coma', 'stomach_bleeding', 'distention_of_abdomen', 'history_of_alcohol_consumption', 'blood_in_sputum', 'prominent_veins_on_calf', 'palpitations', 'painful_walking', 'pus_filled_pimples', 'blackheads', 'scurring', 'skin_peeling', 'silver_like_dusting', 'small_dents_in_nails', 'inflammatory_nails', 'blister', 'red_sore_around_nose', 'yellow_crust_ooze'];
+        var selectedSymptoms = [];
+
         $(document).ready(function() {
+            $("#symptom").autocomplete({
+                source: symptoms
+            });
+
+            $("#add").click(function() {
+                var symptom = $("#symptom").val().trim();
+                if (symptom !== "" && !selectedSymptoms.includes(symptom)) {
+                    selectedSymptoms.push(symptom);
+                    $("#symptoms").append("<li>" + symptom + "</li>");
+                    $("#symptom").val("");
+                }
+            });
+
+            $("#predictDisease").click(function() {
+                $("#predictionContent").show();
+            });
+
             $("#messageArea").on("submit", function(event) {
                 const date = new Date();
                 const hour = date.getHours();
                 const minute = date.getMinutes();
-                const str_time = hour+":"+minute;
+                const str_time = hour + ":" + minute;
                 var rawText = $("#text").val();
-                var userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<span class="msg_time_send">'+ str_time + '</span></div><div class="img_cont_msg"><img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg"></div></div>';
+                var userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<span class="msg_time_send">' + str_time + '</span></div><div class="img_cont_msg"><img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg"></div></div>';
                 $("#text").val("");
                 $("#messageFormeight").append(userHtml);
 
@@ -67,6 +118,75 @@
                 });
                 event.preventDefault();
             });
+
+            $("#predict").click(function() {
+                if (selectedSymptoms.length === 0) {
+                    alert("Please add at least one symptom.");
+                    return;
+                }
+
+                $("#refresh").show(); // Show the Refresh button
+
+                // Clear the existing medical diagnosis content
+                $("#messageFormeight").find(".disease-info").remove();
+
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/predict',
+                    contentType: 'application/json',
+                    data: JSON.stringify(selectedSymptoms),
+                    method: 'POST',
+                    success: function(response) {
+                        console.log(response);
+                        $("#result").empty();
+                        let foundHighProbabilityDisease = false;
+
+                        response.forEach(function(item) {
+                            if (item.probability > 0.01) {
+                                foundHighProbabilityDisease = true;
+                                $("#result").append(`
+                                <div class="disease-info" style="border: 2px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 20px;">
+                                <p style="font-size: 18px; margin-bottom: 5px;">
+                                    <span style="font-weight: bold;">Disease Name:</span>
+                                    <span style="font-size: 16px;">${item.disease}</span>
+                                </p>
+                                <p style="font-size: 18px; margin-bottom: 5px;">
+                                    <span style="font-weight: bold;">Probability:</span>
+                                    <span style="font-size: 16px;">${item.probability}</span>
+                                </p>
+                                <p style="font-size: 18px; margin-bottom: 5px;">
+                                    <span style="font-weight: bold;">Description:</span>
+                                    <span style="font-size: 16px;">${item.description}</span>
+                                </p>
+                                <p style="font-size: 18px; margin-bottom: 5px;">
+                                    <span style="font-weight: bold;">Precautions:</span>
+                                    <ul style="margin: 0; padding-left: 20px;">
+                                        ${item.precautions.map(precaution => `<li style="font-size: 16px; margin-bottom: 5px;">${precaution}</li>`).join('')}
+                                    </ul>
+                                </p>
+                            </div>
+                            `);
+                            }
+                        });
+
+                        if (!foundHighProbabilityDisease) {
+                            $("#result").append(`
+                    <p>No disease prediction found with a probability greater than 0.5.</p>
+                    <p>Please provide additional symptoms for a more accurate prediction.</p>
+                    `);
+                        }
+                    },
+                    error: function() {
+                        $("#result").empty();
+                        $("#result").append("<p>An error occurred while predicting the disease.</p>");
+                    }
+                });
+            });
+            $("#refresh").click(function() {
+            selectedSymptoms = []; // Clear the selectedSymptoms array
+            $("#symptoms").empty(); // Remove the symptom list items
+            $("#result").empty(); // Clear the result section
+            $("#refresh").hide(); // Hide the Refresh button
+        });
         });
     </script>
 </body>
