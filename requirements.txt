@@ -1,0 +1,5 @@
+flask
+numpy
+pandas
+flask_cors
+scikit-learn==1.2.2
