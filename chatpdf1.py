@@ -12,7 +12,6 @@ from langchain.prompts import PromptTemplate
 import random
 import json
 import nltk
-nltk.download('punkt')
 import torch
 from src.model import NeuralNet
 from src.nltk_utils import bag_of_words, tokenize
