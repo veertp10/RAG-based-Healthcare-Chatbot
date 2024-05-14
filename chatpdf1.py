@@ -192,7 +192,7 @@ def pretty_print_docs(docs):
     )
 
 def user_input(user_question):
-    embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
     
     new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
     retriever = new_db.as_retriever(search_kwargs={"k": 20})
