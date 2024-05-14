@@ -37,9 +37,8 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 
 app = Flask(__name__)
 
-# load_dotenv()
-# os.getenv("GOOGLE_API_KEY")
-GOOGLE_API_KEY=AIzaSyDfF4LehGB9NCnMfvCG_Z9EB-UGMDlB9qA
+
+GOOGLE_API_KEY="AIzaSyDfF4LehGB9NCnMfvCG_Z9EB-UGMDlB9qA"
 genai.configure(api_key=GOOGLE_API_KEY)
 
 # Read disease names from disease.txt
