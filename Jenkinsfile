@@ -13,7 +13,7 @@ pipeline {
                 sh '''
                     python3 -m venv venv
                     . venv/bin/activate
-                    pip install -r requirements.txt
+                    pip install -r requirement.txt
                 '''
             }
         }
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 sh '''
                     . venv/bin/activate
-                    python app.py
+                    python chatpdf1.py
                 '''
             }
         }
