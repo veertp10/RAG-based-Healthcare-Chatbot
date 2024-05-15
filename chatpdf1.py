@@ -13,8 +13,8 @@ import random
 import json
 import nltk
 import torch
-from model import NeuralNet
-from nltk_utils import bag_of_words, tokenize
+from src.model import NeuralNet
+from src.nltk_utils import bag_of_words, tokenize
 import json
 import pandas as pd
 import numpy as np
