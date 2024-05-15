@@ -13,8 +13,8 @@ import random
 import json
 import nltk
 import torch
-from src.model import NeuralNet
-from src.nltk_utils import bag_of_words, tokenize
+from model import NeuralNet
+from nltk_utils import bag_of_words, tokenize
 import json
 import pandas as pd
 import numpy as np
@@ -29,7 +29,7 @@ warnings.filterwarnings("ignore", category=UserWarning)
 
 
 
-with open('src/intents.json', 'r') as json_data:
+with open('intents.json', 'r') as json_data:
     intents = json.load(json_data)
 
 os.environ['OMP_NUM_THREADS'] = '1'
@@ -37,9 +37,9 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 
 app = Flask(__name__)
 
-
-GOOGLE_API_KEY="AIzaSyDfF4LehGB9NCnMfvCG_Z9EB-UGMDlB9qA"
-genai.configure(api_key=GOOGLE_API_KEY)
+load_dotenv()
+os.getenv("GOOGLE_API_KEY")
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # Read disease names from disease.txt
 with open('data/diseases.txt', 'r') as file:
@@ -192,7 +192,7 @@ def pretty_print_docs(docs):
     )
 
 def user_input(user_question):
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
+    embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
     
     new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
     retriever = new_db.as_retriever(search_kwargs={"k": 20})
